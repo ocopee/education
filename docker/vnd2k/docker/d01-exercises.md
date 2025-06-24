@@ -1,0 +1,14 @@
+# Docker Compose Exercise: SuperTokens Self-Hosted Setup
+
+## Objective
+
+Create a Docker Compose configuration for self-hosting SuperTokens based on the official documentation, following specific conventions and best practices.
+
+## Requirements
+
+Based on the SuperTokens Self-Host Documentation, create a single file named d01-solutions.yaml that includes:
+
+- Must use `ocopee` as the username
+- Must use exactly `this.is.password` as the password
+- Create named `volumes` under a volumes section
+
