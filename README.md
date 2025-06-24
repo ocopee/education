@@ -10,12 +10,28 @@ Each student creates their own folder using their GitHub username and submits th
 
 ```
 education/
-├── student-username-1/
-│   ├── practice-1/
-│   ├── practice-2/
-│   └── exam-final/
-├── student-username-2/
-│   ├── practice-1/
-│   └── midterm-exam/
+├── kubernetes/
+│   ├── student-username-1/
+│   │   ├── practice-1/
+│   │   ├── practice-2/
+│   │   └── final-exam/
+│   └── student-username-2/
+│       ├── lab-1/
+│       └── midterm-exam/
+├── docker/
+│   ├── student-username-1/
+│   │   ├── containerization-lab/
+│   │   └── docker-compose-project/
+│   └── student-username-3/
+│       ├── practice-1/
+│       └── final-project/
+├── nodejs/
+│   ├── student-username-2/
+│   │   ├── express-api/
+│   │   ├── authentication-lab/
+│   │   └── final-project/
+│   └── student-username-4/
+│       ├── rest-api-practice/
+│       └── exam-solutions/
 └── README.md
 ```
