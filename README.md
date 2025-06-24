@@ -10,28 +10,33 @@ Each student creates their own folder using their GitHub username and submits th
 
 ```
 education/
-├── kubernetes/
-│   ├── student-username-1/
-│   │   ├── practice-1/
-│   │   ├── practice-2/
-│   │   └── final-exam/
-│   └── student-username-2/
-│       ├── lab-1/
-│       └── midterm-exam/
+├── .git/
+├── .gitignore
+├── LICENSE
+├── README.md
 ├── docker/
-│   ├── student-username-1/
-│   │   ├── containerization-lab/
-│   │   └── docker-compose-project/
-│   └── student-username-3/
-│       ├── practice-1/
-│       └── final-project/
-├── nodejs/
-│   ├── student-username-2/
-│   │   ├── express-api/
-│   │   ├── authentication-lab/
-│   │   └── final-project/
-│   └── student-username-4/
-│       ├── rest-api-practice/
-│       └── exam-solutions/
-└── README.md
+│   ├── lesson-plans/
+│   │   ├── d01-run-open-source-containers.md
+│   │   ├── week-1-docker-basics.md
+│   │   ├── week-2-dockerfile-best-practices.md
+│   │   └── week-3-docker-compose.md
+│   ├── [student-folders]/
+│   │   ├── docker/
+│   │   │   ├── d01-exercises.md
+│   │   │   └── d01-solutions.yaml
+│   │   └── [other-lessons]
+│   └── [other-student-folders]/
+├── kubernetes/
+│   ├── lesson-plans/
+│   │   ├── week-1-introduction.md
+│   │   ├── week-2-pods-and-services.md
+│   │   └── week-3-deployments.md
+│   └── [student-folders]/
+└── nodejs/
+    ├── lesson-plans/
+    │   ├── week-1-nodejs-fundamentals.md
+    │   ├── week-2-express-framework.md
+    │   └── week-3-database-integration.md
+    └── [student-folders]/
 ```
+
