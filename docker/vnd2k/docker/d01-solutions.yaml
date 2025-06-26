@@ -1,0 +1,44 @@
+name: occopee
+services:
+  occopee_postgres:
+    image: 'postgres:latest'
+    container_name: postgres
+    environment:
+      POSTGRES_USER: "occopee"
+      POSTGRES_PASSWORD: "this.is.password"
+      POSTGRES_DB: "supertokens"
+    ports:
+      - 5433:5432
+    networks:
+      - occopee_net
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'pg_isready', '-U', 'occopee', '-d', 'supertokens']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./volumes/postgres:/var/lib/postgresql/data
+
+  supertokens:
+    image: registry.supertokens.io/supertokens/supertokens-postgresql:latest
+    depends_on:
+      occopee_postgres:
+        condition: service_healthy
+    ports:
+      - 3567:3567
+    environment:
+      POSTGRESQL_CONNECTION_URI: "postgresql://occopee:this.is.password@postgres:5432/supertokens"
+    networks:
+      - occopee_net
+    restart: unless-stopped
+    healthcheck:
+      test: >
+        bash -c 'exec 3<>/dev/tcp/127.0.0.1/3567 && echo -e "GET /hello HTTP/1.1\r\nhost: 127.0.0.1:3567\r\nConnection: close\r\n\r\n" >&3 && cat <&3 | grep "Hello"'
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  occopee_net:
+    driver: bridge

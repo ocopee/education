@@ -1,19 +1,13 @@
-version: "3.8"
+# Docker Compose Exercise: SuperTokens Self-Hosted Setup
 
-services:
-  supertokens:
-    image: supertokens/supertokens-postgresql
-    container_name: supertokens
-    restart: unless-stopped
-    ports:
-      - "3567:3567"
-    environment:
-      POSTGRESQL_USER: ocopee
-      POSTGRESQL_PASSWORD: password
-      POSTGRESQL_DATABASE_NAME: supertokens
-    volumes:
-      - supertokens-data:/var/lib/postgresql/data
+## Objective
 
-volumes:
-  supertokens-data:
-    name: supertokens-data
+Create a Docker Compose configuration for self-hosting SuperTokens based on the official documentation, following specific conventions and best practices.
+
+## Requirements
+
+Based on the SuperTokens Self-Host Documentation, create a single file named d01-solutions.yaml that includes:
+
+- Must use `ocopee` as the username
+- Must use exactly `this.is.password` as the password
+- Create named `volumes` under a volumes section
