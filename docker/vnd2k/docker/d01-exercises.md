@@ -11,4 +11,3 @@ Based on the SuperTokens Self-Host Documentation, create a single file named d01
 - Must use `ocopee` as the username
 - Must use exactly `this.is.password` as the password
 - Create named `volumes` under a volumes section
-
