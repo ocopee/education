@@ -1,0 +1,47 @@
+services:
+  occopee_postgres:
+    image: 'postgres:latest'
+    container_name: occopee_postgrest
+    environment:
+      POSTGRES_USER: "occopee"
+      POSTGRES_PASSWORD: "this.is.password"
+      POSTGRES_DB: "logto"
+    ports:
+      - 5434:5432
+    networks:
+      - occopee_net
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'pg_isready', '-U', 'occopee', '-d', 'logto']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./volumes/logto:/var/lib/postgresql/data
+
+  occopee_logto:
+    image: ghcr.io/logto-io/logto:1.29.0
+    container_name: logto
+    depends_on:
+      occopee_postgres:
+        condition: service_healthy
+    ports:
+      - 3001:3001
+    environment:
+      DB_URL: "postgresql://occopee:this.is.password@occopee_postgrest:5432/logto"
+      ADMIN_ENDPOINT: "http://localhost:3001"
+      ENDPOINT: "http://localhost:3001"
+      TRUST_PROXY_HEADER: "true"
+    networks:
+      - occopee_net
+    restart: unless-stopped
+    healthcheck:
+      test: >
+        bash -c 'exec 3<>/dev/tcp/127.0.0.1/3001 && echo -e "GET /api/health HTTP/1.1\r\nhost: 127.0.0.1:3001\r\nConnection: close\r\n\r\n" >&3 && cat <&3 | grep "ok"'
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  occopee_net:
+    driver: bridge
