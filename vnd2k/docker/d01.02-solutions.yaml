@@ -12,7 +12,7 @@ services:
       - "3002:3002"
     environment:
       - TRUST_PROXY_HEADER=1
-      - DB_URL=postgres://ocop:59mw27ogmpxg@postgres:5432/logto
+      - DB_URL=postgres://ocop:thisispassword@postgres:5432/logto
       - ENDPOINT
       - ADMIN_ENDPOINT
 
@@ -25,7 +25,7 @@ services:
       - ./data:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: ocop
-      POSTGRES_PASSWORD: 59mw27ogmpxg
+      POSTGRES_PASSWORD: thisispassword
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]
       interval: 10s
