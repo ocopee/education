@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  app:
+    depends_on:
+      postgres:
+        condition: service_healthy
+    image: svhd/logto:${TAG:-latest}
+    entrypoint: ["sh", "-c", "npm run cli db seed -- --swe && npm start"]
+    ports:
+      - "3001:3001"
+      - "3002:3002"
+    environment:
+      - TRUST_PROXY_HEADER=1
+      - DB_URL=postgres://ocop:59mw27ogmpxg@postgres:5432/logto
+      - ENDPOINT
+      - ADMIN_ENDPOINT
+
+  postgres:
+    image: postgres:17-alpine
+    user: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ocop
+      POSTGRES_PASSWORD: 59mw27ogmpxg
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
