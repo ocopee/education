@@ -2,7 +2,7 @@ name: ocop
 
 services:
   ocop_postgres:
-    image: 'postgres:latest'
+    image: "postgres:latest"
     container_name: ocop-postgres
     environment:
       POSTGRES_USER: "ocop"
@@ -14,7 +14,7 @@ services:
       - ocop_net
     restart: unless-stopped
     healthcheck:
-      test: ['CMD', 'pg_isready', '-U', 'ocop', '-d', 'supertokens']
+      test: ["CMD", "pg_isready", "-U", "ocop", "-d", "supertokens"]
       interval: 5s
       timeout: 5s
       retries: 5
