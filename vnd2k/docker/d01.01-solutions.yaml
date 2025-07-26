@@ -1,36 +1,38 @@
-name: occopee
+name: ocop
+
 services:
-  occopee_postgres:
+  ocop_postgres:
     image: 'postgres:latest'
-    container_name: postgres
+    container_name: ocop-postgres
     environment:
-      POSTGRES_USER: "occopee"
+      POSTGRES_USER: "ocop"
       POSTGRES_PASSWORD: "thisispassword"
       POSTGRES_DB: "supertokens"
     ports:
       - 5433:5432
     networks:
-      - occopee_net
+      - ocop_net
     restart: unless-stopped
     healthcheck:
-      test: ['CMD', 'pg_isready', '-U', 'occopee', '-d', 'supertokens']
+      test: ['CMD', 'pg_isready', '-U', 'ocop', '-d', 'supertokens']
       interval: 5s
       timeout: 5s
       retries: 5
     volumes:
       - ./volumes/postgres:/var/lib/postgresql/data
 
-  supertokens:
+  ocop_supertokens:
     image: registry.supertokens.io/supertokens/supertokens-postgresql:latest
+    container_name: ocop-supertokens
     depends_on:
-      occopee_postgres:
+      ocop_postgres:
         condition: service_healthy
     ports:
       - 3567:3567
     environment:
-      POSTGRESQL_CONNECTION_URI: "postgresql://occopee:thisispassword@postgres:5432/supertokens"
+      POSTGRESQL_CONNECTION_URI: "postgresql://ocop:thisispassword@ocop-postgres:5432/supertokens"
     networks:
-      - occopee_net
+      - ocop_net
     restart: unless-stopped
     healthcheck:
       test: >
@@ -40,5 +42,4 @@ services:
       retries: 5
 
 networks:
-  occopee_net:
-    driver: bridge
+  ocop_net:

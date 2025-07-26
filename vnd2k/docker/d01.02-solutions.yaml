@@ -1,28 +1,14 @@
-version: "3.9"
+name: ocop
 
 services:
-  app:
-    depends_on:
-      postgres:
-        condition: service_healthy
-    image: svhd/logto:${TAG:-latest}
-    entrypoint: ["sh", "-c", "npm run cli db seed -- --swe && npm start"]
-    ports:
-      - "3001:3001"
-      - "3002:3002"
-    environment:
-      - TRUST_PROXY_HEADER=1
-      - DB_URL=postgres://ocop:thisispassword@postgres:5432/logto
-      - ENDPOINT
-      - ADMIN_ENDPOINT
-
-  postgres:
+  ocop_postgres:
+    container_name: ocop-postgres
     image: postgres:17-alpine
     user: postgres
     ports:
       - "5432:5432"
     volumes:
-      - ./data:/var/lib/postgresql/data
+      - ./volumes/postgres:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: ocop
       POSTGRES_PASSWORD: thisispassword
@@ -31,3 +17,22 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+  ocop_logto:
+    container_name: ocop-logto
+    depends_on:
+      ocop_postgres:
+        condition: service_healthy
+    image: svhd/logto:${TAG:-latest}
+    entrypoint: ["sh", "-c", "npm run cli db seed -- --swe && npm start"]
+    ports:
+      - "3001:3001"
+      - "3002:3002"
+    environment:
+      - TRUST_PROXY_HEADER=1
+      - DB_URL=postgres://ocop:thisispassword@ocop-postgres:5432/logto
+      - ENDPOINT
+      - ADMIN_ENDPOINT
+
+networks:
+  ocop_net:
